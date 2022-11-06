@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #001a2c;
+    --color-secondary: #032E43;
+    --color-accent: #104f54;
+    --color-bg: #00111c; 
+    --color-light: #6a0440;
+    --color-screen: #dce3ec;
+}
+
+body {
+    display: grid;
+    grid: auto max-content auto / minmax(10vw, 1fr) auto minmax(10vw, 1fr);
+    max-width: 100%;
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.calc-container {
+    grid-column: 2 / -2;
+    grid-row: 2 / 3;
+    display: grid;
+    grid: min-content auto / min-content; 
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.25rem;
+    background-color: var(--color-primary);
+    border: 1px solid #003356;
+    border-radius: 1rem;
+}
+
+.calc-screen {
+    display: grid;
+    grid-column: 1 / -1;
+    background-color: var(--color-screen);
+    border: 2px solid var(--color-primary);
+    height: 100px;
+    border-radius: 0.5rem;
+    align-items: flex-end;
+    padding: 0.5rem;
+}
+
+.calc-screen div{ 
+    height: 2rem;
+}
+
+.screen-input {
+    font-size: 1.375rem;
+}
+
+.screen-result {
+    font-size: 1.875rem;
+    font-weight: bold;
+}
+
+.calc-keys {
+    width: 100%;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-auto-rows: min-content;
+    gap: 0.3rem;
+    grid-template-areas: 
+        "divide percentage clear reset"
+        "cross num-7 num-8 num-9"
+        "minus num-4 num-5 num-6"
+        "plus num-1 num-2 num-3"
+        "equal point num-0 num-0";
+    justify-items: center;
+    padding: 0.2rem;
+}
+
+.calc-keys button {
+    width: 100%;
+    color: var(--color-screen);
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.operators {
+    background-color: var(--color-accent);
+}
+
+.numbers {
+    background-color: var(--color-secondary);
+}
+
+#reset { 
+    grid-area: reset;
+    background-color: var(--color-light);
+}
+
+#clear {
+    grid-area: clear;
+    background-color: var(--color-light);
+}
+
+#percentage {
+    grid-area: percentage;
+    background-color: var(--color-light);
+}
+
+#divide {
+    grid-area: divide;
+}
+
+#multiply {
+    grid-area: cross;
+}
+
+#minus {
+    grid-area: minus;
+}
+
+#plus {
+    grid-area: plus;
+}
+
+#decimal {
+    grid-area: point;
+    background-color: var(--color-secondary);
+}
+
+#equal {
+    grid-area: equal;
+    background-color: var(--color-accent);
+}
+
+#num-0 {
+    grid-area: num-0;
+}
+
+#num-1 {
+    grid-area: num-1;
+}
+
+#num-2 {
+    grid-area: num-2;
+}
+
+#num-3 {
+    grid-area: num-3;
+}
+
+#num-4 {
+    grid-area: num-4;
+}
+
+#num-5 {
+    grid-area: num-5;
+}
+
+#num-6 {
+    grid-area: num-6;
+}
+
+#num-7 {
+    grid-area: num-7;
+}
+
+#num-8 { 
+    grid-area: num-8; 
+}
+
+#num-9 {
+    grid-area: num-9;
+}
+
+.footer {
+    width: 100%;
+    margin-top: auto;
+    padding: 1.2rem 0.5rem;
+    text-align: center;
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+    font-size: 0.875rem;
+    background-color: var(--color-bg);
+    color: var(--color-screen);
+}
+
+.footer a {
+    color: var(--color-screen);
+    padding-left: 0.05rem;
+}
+
+.fab {
+    color: var(--color-screen);
+    font-size: 1.1rem;
+    padding: 0 0.2rem 0 0.3rem; 
+}
