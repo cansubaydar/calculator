@@ -17,3 +17,5 @@ Calculating this example on the browser console:
 - Added an error message to the screen when a number is tried to be divided by 0.
 - Disabled the decimal button if there’s already one in the display. The answers with long decimals are rounded using the `toFixed()` method. 
 - Created functions called `reset` that clears all the values and `clear` that deletes the display value.
+
+Live preview is [here](https://cansubaydar.github.io/calculator/)
