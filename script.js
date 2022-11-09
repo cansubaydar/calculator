@@ -59,7 +59,7 @@ function calculate (e) {
             screenInput.textContent = num1; 
         } 
         if (!num1) { 
-            num1 = '0';
+            !screenResult.textContent ? num1 = '0' :  num1 = screenResult.textContent;
             screenInput.textContent = num1;
         }
         if (num1 && num2) {
@@ -87,7 +87,7 @@ function calculate (e) {
             if(screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
                 screenResult.textContent = operator(num1, operation, num2).toFixed(2); 
             } 
-            num1 = screenResult.textContent; 
+            num1 = ''; 
             num2 = '';
             operation = ''; 
         } 
@@ -127,6 +127,9 @@ function calculate (e) {
             num1 += val; 
             screenInput.textContent = num1;
         }
+        if(selected !== 'operators' && screenResult.textContent) {
+            screenResult.textContent = '';
+        } 
     }
 }
 
