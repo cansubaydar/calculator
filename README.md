@@ -18,4 +18,6 @@ Calculating this example on the browser console:
 - Disabled the decimal button if there’s already one in the display. The answers with long decimals are rounded using the `toFixed()` method. 
 - Created functions called `reset` that clears all the values and `clear` that deletes the display value.
 
+Update: Added keyboard support
+
 Live preview is [here](https://cansubaydar.github.io/calculator/)
