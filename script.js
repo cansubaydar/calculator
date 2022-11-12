@@ -5,7 +5,7 @@ screenInput.textContent = '';
 
 let num1 = '';
 let num2 = '';
-let operation = '';
+let operator = '';
 
 // basic math operators  
 const add = (a, b) => (a + b);
@@ -15,12 +15,12 @@ const divide = (a, b) => (a / b);
 const percentage = (a, b) => ((a / 100) * b);
 
 // function that take an operator and 2 numbers
-function operator (num1, operation, num2) { 
+function operate (num1, operator, num2){ 
     let result; 
     let n1 = Number(num1);
     let n2 = Number(num2);
 
-    switch(operation) {
+    switch(operator) {
         case '+':
             result = add(n1, n2);
             return result; 
@@ -28,7 +28,6 @@ function operator (num1, operation, num2) {
             result = subtract(n1, n2);
             return result;
         case 'x' :
-        case '*' :
             result = multiply(n1, n2);
             return result;
         case '/':
@@ -42,94 +41,108 @@ function operator (num1, operation, num2) {
     }
     screenInput.textContent = result;
     num1 = result;
-    operation = '';
+    operator = '';
     num2 = '';
 }
 
 // event listener to the buttons
-btns.forEach(btn => btn.addEventListener('click', calculate));
+btns.forEach(btn => btn.addEventListener('click', calcKey));
+
+// event listener for keyboard
+window.addEventListener('keydown', (e) => {
+    let keyVal = e.key;
+    if (keyVal.match(/^[0-9c=+\-*.%\/]*$/g) || keyVal === 'Enter' || keyVal === 'Backspace') {
+        calculate(keyVal); 
+    }
+});
+
+function calcKey(e) {
+    let val = e.target.value;
+    calculate(val);
+} 
 
 // function that stores the values and displays them on the screen 
-function calculate (e) {
-    let selected = e.target.className;
-    let val = e.target.value;
-    
-    if (selected === 'operators') {
+function calculate(e) {
+    if (e.match(/[+\-x*%\/]/g)) { 
         if (screenResult.textContent === num1 && !num2) {
             screenInput.textContent = num1; 
         } 
-        if (!num1) { 
-            !screenResult.textContent ? num1 = '0' :  num1 = screenResult.textContent;
-            screenInput.textContent = num1;
+        if(!num1) { 
+           !screenResult.textContent ? num1 = '0' : num1 = screenResult.textContent;
+           screenInput.textContent = num1;
         }
         if (num1 && num2) {
-            screenResult.textContent = operator(num1, operation, num2);
+            screenResult.textContent = operate(num1, operator, num2);
             // check the length of the result and if it contains the decimal, round the result
-            if (screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
-                screenResult.textContent = operator(num1, operation, num2).toFixed(2); 
+            if(screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
+                screenResult.textContent = operate(num1, operator, num2).toFixed(2); 
             } 
             // check if operation is clicked and the length of screen is long and change the screen
-            if (screenInput.textContent.includes(operation) && screenInput.textContent.length > 7) {
+            if (screenInput.textContent.includes(operator) && screenInput.textContent.length > 7) {
                 screenInput.textContent = screenResult.textContent;
             }
             num1 = screenResult.textContent;
             num2 = ''; 
-            operation = '';
-       }
-        if (!operation) {
-            operation = val;
-            screenInput.textContent += operation; 
-        } 
-    // when the equal is clicked 
-    } else if (selected === 'equal') { 
+            operator = '';
+        }
+        if (!operator) {
+            if (e === '*') e = 'x';
+            operator = e;
+            screenInput.textContent += operator; 
+        }
+    } else if (e === '=' || e === 'Enter') { 
         if (num1 && num2) {
-            screenResult.textContent = operator(num1, operation, num2);
+            screenResult.textContent = operate(num1, operator, num2);
             if(screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
-                screenResult.textContent = operator(num1, operation, num2).toFixed(2); 
+                screenResult.textContent = operate(num1, operator, num2).toFixed(2); 
             } 
             num1 = ''; 
             num2 = '';
-            operation = ''; 
-        } 
-    } else if (selected === 'reset') {
+            operator = ''; 
+        }
+    } else if (e === 'AC' || e === 'Backspace') {
         reset();
-    } else if (num1 && operation) {
-        if (selected === 'decimal' && num2.includes('.')) return; 
-        if (selected === 'decimal' && !num2) { 
+    } else if (e === 'C' || e === 'c') {
+        if(num1) {
+            if(!operator) {
+                clear();
+                num1 = screenInput.textContent;
+            } else if (operator && !num2) {
+                operator = operator.toString().slice(0, -1);
+                clear(); 
+            } else if (num2) {
+                num2 = num2.toString().slice(0, -1);
+                clear();
+            }
+        } 
+    } else if (num1 && operator) {
+        if(operator.includes('%') && !num2) { 
+            screenInput.textContent += 'x';
+        } 
+        decimal(e, num2); 
+        num2 += e;
+        screenInput.textContent += e;
+    } else {
+        decimal(e, num1);
+        num1 += e; 
+        screenInput.textContent = num1;
+        if(!e.match(/[+\-x*%\/]/g) && screenResult.textContent) {
+            screenResult.textContent = '';
+        }
+    }
+}
+
+// add decimal point
+function decimal(d, n) {
+    if (d === '.' && n.includes('.')) return; 
+    if (d === '.' && !n) {
+        if (n === num1) {
+            num1 = '0';
+            screenInput.textContent = num1;
+        } else if (n === num2) {
             num2 = '0';
             screenInput.textContent += num2;
         }
-        if (operation.includes('%') && !num2) {
-            screenInput.textContent += 'x';
-        } 
-        if (selected === 'clear') {
-            if (!num2 && operation) return;
-            num2 = num2.toString().slice(0, -1);
-            clear();
-        } else {
-            num2 += val;
-            screenInput.textContent += val;
-        }
-    } else if (selected === 'clear' && !operation) {
-        screenInput.textContent = screenResult.textContent;
-        clear();
-        num1 = screenInput.textContent;
-    } else {
-        if (selected === 'decimal' && num1.includes('.')) return; 
-        if (selected === 'decimal' && !num1) { 
-            num1 = '0';
-            screenInput.textContent = num1;
-        }
-        if (selected === 'clear') {
-            clear();
-            num1 = screenInput.textContent;
-        } else {
-            num1 += val; 
-            screenInput.textContent = num1;
-        }
-        if(selected !== 'operators' && screenResult.textContent) {
-            screenResult.textContent = '';
-        } 
     }
 }
 
@@ -139,7 +152,7 @@ function reset() {
     screenResult.textContent = '';
     num1 = '';
     num2 = '';
-    operation = '';
+    operator = '';
 }
 
 // delete display value
