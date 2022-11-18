@@ -64,7 +64,7 @@ function calcKey(e) {
 // function that stores the values and displays them on the screen 
 function calculate(e) {
     if (e.match(/[+\-x*%\/]/g)) { 
-        if (screenResult.textContent === num1 && !num2) {
+        if (screenResult.textContent === num1 && !num2 && !operator) {
             screenInput.textContent = num1; 
         } 
         if(!num1) { 
