@@ -77,6 +77,9 @@ function calculate(e) {
             if(screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
                 screenResult.textContent = operate(num1, operator, num2).toFixed(2); 
             } 
+            if (screenResult.textContent.length >= 12) {
+                screenResult.textContent = Number(screenResult.textContent).toExponential(2);
+            }
             // check if operation is clicked and the length of screen is long and change the screen
             if (screenInput.textContent.includes(operator) && screenInput.textContent.length > 7) {
                 screenInput.textContent = screenResult.textContent;
@@ -96,6 +99,9 @@ function calculate(e) {
             if(screenResult.textContent.length > 5 && screenResult.textContent.includes('.')) {
                 screenResult.textContent = operate(num1, operator, num2).toFixed(2); 
             } 
+            if (screenResult.textContent.length >= 12) {
+                screenResult.textContent = Number(screenResult.textContent).toExponential(2);
+            }
             num1 = ''; 
             num2 = '';
             operator = ''; 
@@ -120,12 +126,16 @@ function calculate(e) {
             screenInput.textContent += 'x';
         } 
         decimal(e, num2); 
-        num2 += e;
-        screenInput.textContent += e;
+        if (num2.length <= 5) { 
+            num2 += e;
+            screenInput.textContent += e;
+        }
     } else {
         decimal(e, num1);
-        num1 += e; 
-        screenInput.textContent = num1;
+        if(num1.length <= 5) {
+            num1 += e; 
+            screenInput.textContent = num1;
+        }
         if(!e.match(/[+\-x*%\/]/g) && screenResult.textContent) {
             screenResult.textContent = '';
         }
